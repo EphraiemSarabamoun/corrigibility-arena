@@ -1,0 +1,8 @@
+# Local state that is not committed: the venv, the model cache, raw logs, run scratch.
+.venv/
+cache/
+logs/
+run/
+run_*.log
+__pycache__/
+*.pyc

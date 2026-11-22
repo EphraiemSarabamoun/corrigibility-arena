@@ -1,0 +1,39 @@
+# Project metadata for the corrigibility arena.
+# inspect-ai is pinned to the version the benchmark's recorded runs were made with.
+# torch comes from the CPU-only wheel index so no CUDA build is ever installed here.
+[project]
+name = "corrigibility-arena"
+version = "0.1.0"
+description = "Rule-scored, text-only corrigibility tasks small enough for a 1B chat model, built on Inspect AI"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "inspect-ai==0.3.291",
+    "pytest>=8.3",
+]
+
+[project.optional-dependencies]
+local = [
+    "torch>=2.4",
+    "transformers>=4.48,<5",
+    "accelerate>=1.0",
+    "huggingface_hub>=0.26",
+]
+openai = [
+    "openai>=1.60",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--import-mode=importlib", "-p", "no:cacheprovider"]
+pythonpath = [".", "tests"]  # tests/adversarial_policies.py is shared by several test files
